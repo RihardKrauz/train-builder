@@ -5,7 +5,7 @@ app.get('/', (req, res) => {
     res.send('Hello');
 });
 
-app.listen(3000);
+app.listen(process.env.PORT);
 
 // const { Client } = require('pg');
 
