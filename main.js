@@ -22,6 +22,8 @@ app.get('/test', (request, response) => {
                 }
                 let msg = '';
 
+                console.log(res);
+
                 if (res.rows) {
                     for (let row of res.rows) {
                         msg += JSON.stringify(row);
