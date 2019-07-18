@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node main.js",
-    "deploy": "git add -A && git commit -m \"autocommit\" && git push heroku master"
+    "deploy": "git add -A && git commit -m \"autocommit\" && git push heroku master",
+    "logs": "heroku logs --tail"
   },
   "author": "",
   "license": "ISC",

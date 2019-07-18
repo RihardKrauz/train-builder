@@ -20,8 +20,11 @@ app.get('/test', (request, response) => {
                 throw err;
             }
             let msg = '';
-            for (let row of res.rows) {
-                msg += JSON.stringify(row);
+
+            if (res.rows) {
+                for (let row of res.rows) {
+                    msg += JSON.stringify(row);
+                }
             }
 
             client.end();
