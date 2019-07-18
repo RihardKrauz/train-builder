@@ -10,13 +10,12 @@ app.get('/test', (request, response) => {
     try {
         const client = new Client({
             connectionString: process.env.DATABASE_URL,
-            ssl: true,
-            client_encoding: 'utf8'
+            ssl: true
         });
 
         client.connect();
 
-        client.query('select * from train.exercise;', (err, res) => {
+        client.query("SET client_encoding to 'latin1'; select * from train.exercise;", (err, res) => {
             if (err) {
                 throw err;
             }
