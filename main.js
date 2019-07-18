@@ -10,7 +10,8 @@ app.get('/test', (request, response) => {
     try {
         const client = new Client({
             connectionString: process.env.DATABASE_URL,
-            ssl: true
+            ssl: true,
+            client_encoding: 'utf8'
         });
 
         client.connect();
