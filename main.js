@@ -15,7 +15,7 @@ app.get('/test', (request, response) => {
 
         client.connect();
 
-        client.query("SET client_encoding to 'WINDOWS-866';", function(err_res, empty_result_to_fix_encoding) {
+        client.query("SET client_encoding to 'WINDOWS-1251';", function(err_res, empty_result_to_fix_encoding) {
             client.query('select * from train.exercise;', (err, res) => {
                 if (err || err_res) {
                     throw err;
