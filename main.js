@@ -15,39 +15,41 @@ app.get('/test', (request, response) => {
 
         client.connect();
 
-        client.query("SET client_encoding to 'UTF8'; select * from train.exercise;", (err, res) => {
-            if (err) {
-                throw err;
-            }
-            let msg = '';
-
-            if (res.rows) {
-                for (let row of res.rows) {
-                    msg += JSON.stringify(row);
+        client.query("SET client_encoding to 'UTF8';", function(err_res, empty_result_to_fix_encoding) {
+            client.query('select * from train.exercise;', (err, res) => {
+                if (err || err_res) {
+                    throw err;
                 }
-            }
+                let msg = '';
 
-            client.end();
-            const html = `
-                    <!DOCTYPE html>
-                    <html lang="en">
-                    <head>
-                        <meta charset="utf-8" />
-                        <meta
-                        name="viewport"
-                        content="width=device-width, initial-scale=1, shrink-to-fit=no"
-                        />
-                        <meta name="theme-color" content="#000000" />
+                if (res.rows) {
+                    for (let row of res.rows) {
+                        msg += JSON.stringify(row);
+                    }
+                }
 
-                        <title>New app</title>
-                    </head>
-                    <body>
-                        <noscript>You need to enable JavaScript to run this app.</noscript>
-                        <div id="root">${msg}</div>
-                    </body>
-                    </html>
-            `;
-            response.send(html);
+                client.end();
+                const html = `
+                        <!DOCTYPE html>
+                        <html lang="en">
+                        <head>
+                            <meta charset="utf-8" />
+                            <meta
+                            name="viewport"
+                            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+                            />
+                            <meta name="theme-color" content="#000000" />
+
+                            <title>New app</title>
+                        </head>
+                        <body>
+                            <noscript>You need to enable JavaScript to run this app.</noscript>
+                            <div id="root">${msg}</div>
+                        </body>
+                        </html>
+                `;
+                response.send(html);
+            });
         });
     } catch (ex) {
         response.send(ex);
@@ -55,5 +57,3 @@ app.get('/test', (request, response) => {
 });
 
 app.listen(process.env.PORT);
-
-// const { Client } = require('pg');
