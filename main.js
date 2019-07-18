@@ -15,7 +15,7 @@ app.get('/test', (request, response) => {
 
         client.connect();
 
-        client.query("SET client_encoding to 'latin1'; select * from train.exercise;", (err, res) => {
+        client.query("SET client_encoding to 'UTF8'; select * from train.exercise;", (err, res) => {
             if (err) {
                 throw err;
             }
