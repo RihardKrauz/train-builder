@@ -6,6 +6,28 @@ app.get('/', (req, res) => {
     res.send('Hello');
 });
 
+app.get('/add', (request, response) => {
+    try {
+        const client = new Client({
+            connectionString: process.env.DATABASE_URL,
+            ssl: true
+        });
+
+        client.connect();
+
+        client.query("insert into train.exercise (name, description) values ('Бег', 'Укрепляет ноги');", (err, res) => {
+            if (err) {
+                throw err;
+            }
+            let msg = JSON.stringify(res);
+
+            response.send(msg);
+        });
+    } catch (ex) {
+        response.send(ex);
+    }
+});
+
 app.get('/test', (request, response) => {
     try {
         const client = new Client({
@@ -15,23 +37,22 @@ app.get('/test', (request, response) => {
 
         client.connect();
 
-        client.query("SET client_encoding to 'UTF-8';", function(err_res, empty_result_to_fix_encoding) {
-            client.query('select * from train.exercise;', (err, res) => {
-                if (err || err_res) {
-                    throw err;
+        client.query('select * from train.exercise;', (err, res) => {
+            if (err) {
+                throw err;
+            }
+            let msg = '';
+
+            console.log(res);
+
+            if (res.rows) {
+                for (let row of res.rows) {
+                    msg += JSON.stringify(row);
                 }
-                let msg = '';
+            }
 
-                console.log(res);
-
-                if (res.rows) {
-                    for (let row of res.rows) {
-                        msg += JSON.stringify(row);
-                    }
-                }
-
-                client.end();
-                const html = `
+            client.end();
+            const html = `
                         <!DOCTYPE html>
                         <html lang="en">
                         <head>
@@ -50,8 +71,7 @@ app.get('/test', (request, response) => {
                         </body>
                         </html>
                 `;
-                response.send(html);
-            });
+            response.send(html);
         });
     } catch (ex) {
         response.send(ex);
