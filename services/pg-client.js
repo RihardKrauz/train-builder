@@ -1,8 +1,7 @@
 const { Client } = require('pg');
 
 class PgClient {
-
-    runQueryAsync(reqString) { 
+    runQueryAsync(reqString) {
         return new Promise((resolved, rejected) => {
             const client = new Client({
                 connectionString: process.env.DATABASE_URL,
@@ -11,25 +10,21 @@ class PgClient {
 
             try {
                 client.connect();
-            
+
                 client.query(reqString, (err, res) => {
                     if (err) {
                         rejected(err);
                     }
-            
+
                     resolved(res);
-            
+
                     client.end();
                 });
             } catch (ex) {
-                try {
-                    client.end();
-                } catch() {}
                 rejected(ex);
             }
         });
     }
-};
+}
 
 module.exports = PgClient;
-
