@@ -7,7 +7,7 @@ const AGENT_ACTIONS = {
 async function addExercise({ ExerciseName, ExerciseDescription }) {
     const pgClient = new PgClient();
     const res = await pgClient.runQueryAsync(
-        `insert into train.exercise (name, description) values (${ExerciseName}, ${ExerciseDescription});`
+        `insert into train.exercise (name, description) values ('${ExerciseName}', '${ExerciseDescription}');`
     );
     console.log(res);
 }
