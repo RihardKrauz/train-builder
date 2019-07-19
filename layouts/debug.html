@@ -13,11 +13,15 @@
 <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root">
-        <div><h1>Request:</h1><div>
-            <input id="queryReqInput" />
-        </div><div>
-            <button id="sendReqBtn"></button>
-        </div></div>
+        <div>
+            <h1>Request:</h1>
+            <div>
+                <textarea style="width: 400px; height: 100px;" id="queryReqInput" />
+            </div>
+            <div>
+                <button id="sendReqBtn">Send</button>
+            </div>
+        </div>
         <div><h1>Response:</h1><h2>{msg}</h2></div>
     </div>
     <script>
