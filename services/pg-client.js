@@ -22,9 +22,6 @@ class PgClient {
                     client.end();
                 });
             } catch (ex) {
-                try {
-                    client.end();
-                } catch() {}
                 rejected(ex);
             }
         };

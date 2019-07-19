@@ -11,15 +11,17 @@ app.get('/', (req, res) => {
 app.get('/test2', (request, response) => {
     try {
         const pgClient = new PgClient();
-        pgClient.runQueryAsync('select * from train.exercise;').then(res => {
-            let msg = '';
-            if (res.rows) {
-                for (let row of res.rows) {
-                    msg += JSON.stringify(row);
+        pgClient
+            .runQueryAsync('select * from train.exercise;')
+            .then(res => {
+                let msg = '';
+                if (res.rows) {
+                    for (let row of res.rows) {
+                        msg += JSON.stringify(row);
+                    }
                 }
-            }
 
-            const html = `
+                const html = `
                             <!DOCTYPE html>
                             <html lang="en">
                             <head>
@@ -38,8 +40,11 @@ app.get('/test2', (request, response) => {
                             </body>
                             </html>
                     `;
-            response.send(html);
-        });
+                response.send(html);
+            })
+            .catch(errP => {
+                response.send(errP);
+            });
     } catch (ex) {
         response.send(ex);
     }
