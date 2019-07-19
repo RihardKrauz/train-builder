@@ -1,5 +1,5 @@
 const debugLayout = require('../layouts/debug.html');
-const PgClient = require('./services/pg-client');
+const PgClient = require('../services/pg-client');
 
 function doDebug(request, response) {
     const query = request.query.queryData;
