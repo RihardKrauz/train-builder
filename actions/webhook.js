@@ -37,7 +37,7 @@ async function doWebhook(request, response) {
                     } else {
                         response.json({
                             fulfillmentText:
-                                'Знаю такие упражнения:' +
+                                'Знаю такие упражнения: ' +
                                 exercises.map(e => e.name + ' (' + e.description + ')').join(', ')
                         });
                     }
