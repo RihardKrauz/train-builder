@@ -8,10 +8,23 @@
     />
     <meta name="theme-color" content="#000000" />
 
-    <title>New app</title>
+    <title>Body Debug Page</title>
 </head>
 <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root">{msg}</div>
+    <div id="root">
+        <div><h1>Request:</h1><div>
+            <input id="queryReqInput" />
+        </div><div>
+            <button id="sendReqBtn"></button>
+        </div></div>
+        <div><h1>Response:</h1><h2>{msg}</h2></div>
+    </div>
+    <script>
+        document.getElementById('sendReqBtn').onclick = (e) => {
+            const queryString = document.getElementById('queryReqInput').value;
+            document.location.href = `https://train-builder.herokuapp.com/debug?queryData=${queryString}`;
+        };
+    </script>
 </body>
 </html>
