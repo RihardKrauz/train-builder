@@ -37,7 +37,7 @@ async function doWebhook(request, response) {
                     } else {
                         response.json({ fulfillmentText: exercises.map(e => e.name + '=' + e.description).join(', ') });
                     }
-                    break;
+                    return;
                 default:
                     console.log('Unknown action');
             }

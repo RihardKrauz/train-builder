@@ -18,9 +18,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/debug', doDebug);
-app.get('/webhook', (req, res) => {
-    res.send({ result: 'Ok' });
-});
+app.get('/webhook', (req, res) => res.sendStatus(200));
 app.post('/webhook', doWebhook);
 
 app.listen(process.env.PORT);
