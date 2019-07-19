@@ -1,14 +1,36 @@
 const PgClient = require('../services/pg-client');
 
+const AGENT_ACTIONS = {
+    addNewExercise: 'AddNewExercise'
+};
+
+async function addExercise({ ExerciseName, ExerciseDescription }) {
+    const pgClient = new PgClient();
+    const res = await pgClient.runQueryAsync(
+        `insert into train.exercise (name, description) values (${ExerciseName}, ${ExerciseDescription});`
+    );
+    console.log(res);
+}
+
 function doWebhook(request, response) {
-    const query = request.body;
+    try {
+        const body = request.body;
+        console.log(JSON.stringify(body));
 
-    console.log(query);
+        if (body) {
+            switch (body.queryResult.action) {
+                case AGENT_ACTIONS.addNewExercise:
+                    addExercise(body.queryResult.parameters);
+                    break;
+                default:
+                    console.log('Unknown action');
+            }
+        }
 
-    if (!query) {
         response.send({ result: 'Ok' });
-    } else {
-        response.send({ fulfillmentText: 'Test ff message' });
+    } catch (ex) {
+        console.error(ex);
+        response.send({ result: 'Error' });
     }
 }
 
