@@ -7,6 +7,7 @@ require.extensions['.html'] = (module, filename) => {
 
 // actions
 const doDebug = require('./actions/debug');
+const doWebhook = require('./actions/webhook');
 
 const app = express();
 
@@ -15,5 +16,6 @@ app.get('/', (req, res) => {
 });
 
 app.get('/debug', doDebug);
+app.post('/webhook', doWebhook);
 
 app.listen(process.env.PORT);
