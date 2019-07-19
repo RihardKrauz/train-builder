@@ -1,8 +1,14 @@
 const express = require('express');
-const app = express();
-
 const PgClient = require('./services/pg-client');
+const fs = require('fs');
+
+require.extensions['.html'] = (module, filename) => {
+    module.exports = fs.readFileSync(filename, 'utf8');
+};
+
 const debugLayout = require('./layouts/debug.html');
+
+const app = express();
 
 app.get('/', (req, res) => {
     res.send('Hello');
