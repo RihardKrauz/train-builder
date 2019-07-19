@@ -1,7 +1,8 @@
 const PgClient = require('../services/pg-client');
 
 const AGENT_ACTIONS = {
-    addNewExercise: 'AddNewExercise'
+    addNewExercise: 'AddNewExercise',
+    showAllExercises: 'ShowAllExercises'
 };
 
 async function addExercise({ ExerciseName, ExerciseDescription }) {
@@ -12,7 +13,14 @@ async function addExercise({ ExerciseName, ExerciseDescription }) {
     console.log(res);
 }
 
-function doWebhook(request, response) {
+async function getExercises() {
+    const pgClient = new PgClient();
+    const res = await pgClient.runQueryAsync(`select name, description from train.exercise;`);
+
+    return res.rows;
+}
+
+async function doWebhook(request, response) {
     try {
         const body = request.body;
         console.log(JSON.stringify(body));
@@ -22,15 +30,23 @@ function doWebhook(request, response) {
                 case AGENT_ACTIONS.addNewExercise:
                     addExercise(body.queryResult.parameters);
                     break;
+                case AGENT_ACTIONS.showAllExercises:
+                    var exercises = await getExercises();
+                    if (!exercises) {
+                        throw 'Cant get any exercises';
+                    } else {
+                        response.json({ fulfillmentText: exercises.map(e => e.name + '=' + e.description).join(', ') });
+                    }
+                    break;
                 default:
                     console.log('Unknown action');
             }
         }
 
-        response.send({ result: 'Ok' });
+        response.sendStatus(200);
     } catch (ex) {
         console.error(ex);
-        response.send({ result: 'Error' });
+        response.sendStatus(500);
     }
 }
 
