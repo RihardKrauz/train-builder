@@ -23,7 +23,7 @@
     <script>
         document.getElementById('sendReqBtn').onclick = (e) => {
             const queryString = document.getElementById('queryReqInput').value;
-            document.location.href = `https://train-builder.herokuapp.com/debug?queryData=${queryString}`;
+            document.location.href = `https://train-builder.herokuapp.com/debug?queryData=${encodeURI(queryString)}`;
         };
     </script>
 </body>
