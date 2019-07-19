@@ -6,28 +6,6 @@ app.get('/', (req, res) => {
     res.send('Hello');
 });
 
-app.get('/add', (request, response) => {
-    try {
-        const client = new Client({
-            connectionString: process.env.DATABASE_URL,
-            ssl: true
-        });
-
-        client.connect();
-
-        client.query("insert into train.exercise (name, description) values ('Бег', 'Укрепляет ноги');", (err, res) => {
-            if (err) {
-                throw err;
-            }
-            let msg = JSON.stringify(res);
-
-            response.send(msg);
-        });
-    } catch (ex) {
-        response.send(ex);
-    }
-});
-
 app.get('/test', (request, response) => {
     try {
         const client = new Client({
