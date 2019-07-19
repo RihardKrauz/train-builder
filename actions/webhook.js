@@ -35,7 +35,11 @@ async function doWebhook(request, response) {
                     if (!exercises) {
                         throw 'Cant get any exercises';
                     } else {
-                        response.json({ fulfillmentText: exercises.map(e => e.name + '=' + e.description).join(', ') });
+                        response.json({
+                            fulfillmentText:
+                                'Знаю такие упражнения:' +
+                                exercises.map(e => e.name + ' (' + e.description + ')').join(', ')
+                        });
                     }
                     return;
                 default:
