@@ -17,6 +17,11 @@ app.get('/', (req, res) => {
     res.send('Hello');
 });
 
+app.post('/ml', (req, res) => {
+    console.log(req.body);
+    res.send('ml');
+});
+
 app.get('/debug', doDebug);
 app.get('/webhook', (req, res) => res.sendStatus(200));
 app.post('/webhook', doWebhook);
